@@ -13,16 +13,21 @@ import (
 
 func main() {
 
-	_ = config.LoadEnv()
+	config.LoadEnv()
 	dbConfig := config.DefaultPostgresConfig()
 	db, _ := config.NewPostgresConnection(dbConfig)
 
-	repo := repositories.NewRoleRepository(db)
-	service := services.NewRoleService(repo)
-	controller := controllers.NewRoleController(service)
+	repositoryRole := repositories.NewRoleRepository(db)
+	serviceRole := services.NewRoleService(repositoryRole)
+	controllerRole := controllers.NewRoleController(serviceRole)
+
+	repositoryArtist := repositories.NewArtistRepository(db)
+	serviceArtist := services.NewArtistRepository(repositoryArtist)
+	controllerArtist := controllers.NewArtistController(serviceArtist)
 
 	router := gin.Default()
-	routes.RegisterRoleRoutes(router, controller)
+	routes.RegisterRoleRoutes(router, controllerRole)
+	routes.RegisterArtistRoutes(router, controllerArtist)
 
 	log.Println("🚀 API running on http://localhost:8080")
 	if err := router.Run(":8080"); err != nil {
