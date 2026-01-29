@@ -13,7 +13,7 @@ type ArtistService struct {
 	repo *repositories.ArtistRepository
 }
 
-func NewArtistRepository(repo *repositories.ArtistRepository) *ArtistService {
+func NewArtistService(repo *repositories.ArtistRepository) *ArtistService {
 	return &ArtistService{repo: repo}
 }
 
