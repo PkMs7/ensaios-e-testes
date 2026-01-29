@@ -29,10 +29,15 @@ func main() {
 	serviceBand := services.NewBandService(repositoryBand)
 	controllerBand := controllers.NewBandController(serviceBand)
 
+	repositoryAlbum := repositories.NewAlbumRepository(db)
+	serviceAlbum := services.NewAlbumService(repositoryAlbum)
+	controllerAlbum := controllers.NewAlbumController(serviceAlbum)
+
 	router := gin.Default()
 	routes.RegisterRoleRoutes(router, controllerRole)
 	routes.RegisterArtistRoutes(router, controllerArtist)
 	routes.RegisterBandRoutes(router, controllerBand)
+	routes.RegisterAlbumRoutes(router, controllerAlbum)
 
 	log.Println("🚀 API running on http://localhost:8080")
 	if err := router.Run(":8080"); err != nil {
