@@ -21,8 +21,8 @@ func NewRoleController(service *services.RoleService) *RoleController {
 
 func (c *RoleController) CreateRole(ctx *gin.Context) {
 	var request struct {
-		Name        string `json: "name"`
-		Description string `json: "description"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
 	}
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
@@ -91,12 +91,12 @@ func (c *RoleController) UpdateRoleById(ctx *gin.Context) {
 		return
 	}
 
-	var input struct {
+	var request struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
 
-	if err := ctx.ShouldBindJSON(&input); err != nil {
+	if err := ctx.ShouldBindJSON(&request); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid request body",
 		})
@@ -105,8 +105,8 @@ func (c *RoleController) UpdateRoleById(ctx *gin.Context) {
 
 	role := &models.Role{
 		ID:          id,
-		Name:        input.Name,
-		Description: input.Description,
+		Name:        request.Name,
+		Description: request.Description,
 	}
 
 	err = c.service.UpdateRoleById(ctx, role)
